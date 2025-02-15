@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>數字計算遊戲</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        .game-container { font-size: 24px; margin-bottom: 20px; }
+        input { font-size: 20px; width: 80px; text-align: center; }
+        button { font-size: 20px; padding: 10px; margin-top: 10px; }
+        #result { font-size: 24px; margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <span id="num1">?</span>
+        <span id="operator">?</span>
+        <span id="num2">?</span>
+        = 
+        <input type="number" id="answer" min="0">
+    </div>
+
+    <button onclick="checkAnswer()">提交答案</button>
+    <button onclick="generateQuestion()">下一題</button>
+
+    <div id="result"></div>
+
+    <script>
+        let num1, num2, operator, correctAnswer;
+
+        function generateQuestion() {
+            num1 = Math.floor(Math.random() * 11);
+            operator = Math.random() < 0.5 ? '+' : '-';
+            
+            if (operator === '-') {
+                num2 = Math.floor(Math.random() * (num1 + 1)); // 確保 num2 <= num1
+            } else {
+                num2 = Math.floor(Math.random() * 11);
+            }
+            
+            correctAnswer = operator === '+' ? num1 + num2 : num1 - num2;
+
+            document.getElementById("num1").textContent = num1;
+            document.getElementById("operator").textContent = operator;
+            document.getElementById("num2").textContent = num2;
+            document.getElementById("result").textContent = "";
+            document.getElementById("answer").value = "";
+        }
+
+        function checkAnswer() {
+            let userAnswer = parseInt(document.getElementById("answer").value, 10);
+            if (userAnswer === correctAnswer) {
+                document.getElementById("result").textContent = "✅ 答對了！";
+            } else {
+                document.getElementById("result").textContent = `❌ 錯誤，正確答案是 ${correctAnswer}`;
+            }
+        }
+
+        generateQuestion(); // 進入頁面時產生第一題
+    </script>
+
+</body>
+</html>
